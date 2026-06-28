@@ -133,6 +133,7 @@ a {
 
 .nav-cta,
 .gold-button {
+  position: relative;
   display: inline-flex;
   min-height: 58px;
   align-items: center;
@@ -143,6 +144,40 @@ a {
   color: var(--white);
   font-weight: 700;
   letter-spacing: 0.04em;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.nav-cta::before,
+.gold-button::before {
+  content: "";
+  position: absolute;
+  inset: -70% -45%;
+  z-index: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.18) 45%,
+    rgba(255, 246, 218, 0.52) 50%,
+    rgba(255, 255, 255, 0.16) 55%,
+    transparent 63%
+  );
+  transform: translate3d(-72%, 42%, 0) rotate(0.001deg);
+  animation: goldButtonShine 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.nav-cta > *,
+.gold-button > * {
+  position: relative;
+  z-index: 1;
+}
+
+.nav-cta:hover,
+.gold-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
 }
 
 .nav-cta {
@@ -757,6 +792,28 @@ h1 .gold-text,
   }
 }
 
+@keyframes goldButtonShine {
+  0%,
+  58% {
+    opacity: 0;
+    transform: translate3d(-72%, 42%, 0) rotate(0.001deg);
+  }
+
+  66% {
+    opacity: 0.9;
+  }
+
+  82% {
+    opacity: 0.75;
+    transform: translate3d(72%, -42%, 0) rotate(0.001deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(72%, -42%, 0) rotate(0.001deg);
+  }
+}
+
 a:focus-visible,
 button:focus-visible {
   outline: 3px solid rgba(201, 154, 74, 0.55);
@@ -780,6 +837,12 @@ button:focus-visible {
   .hero-bg {
     animation: none;
     transform: scale(1.03);
+  }
+
+  .nav-cta::before,
+  .gold-button::before {
+    animation: none;
+    opacity: 0;
   }
 }
 
